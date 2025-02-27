@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Complaint Details</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">{{ complaint.get_complaint_type_display }}</h5>
+            <p class="card-text">
+                <strong>User:</strong> {{ complaint.user.username }}<br>
+                <strong>City:</strong> {{ complaint.city }}<br>
+                <strong>Ward:</strong> {{ complaint.ward_number }}<br>
+                <strong>Status:</strong> {{ complaint.get_status_display }}<br>
+                <strong>Date:</strong> {{ complaint.created_at|date:"M d, Y H:i" }}
+            </p>
+            <p class="card-text"><strong>Description:</strong> {{ complaint.description }}</p>
+        </div>
+    </div>
+
+    <h4>Attached Images</h4>
+    <div class="row">
+        {% for image in images %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <img src="{{ image.image.url }}" class="card-img-top" alt="Complaint Image">
+                <div class="card-body">
+                    <p class="card-text text-muted small">
+                        Uploaded: {{ image.uploaded_at|date:"M d, Y H:i" }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+{% endblock %}

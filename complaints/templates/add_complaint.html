@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    .image-preview-container { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .image-preview { position: relative; width: 150px; height: 150px; border: 1px solid #ddd; border-radius: 4px; padding: 4px; }
+    .image-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .remove-image { position: absolute; top: -10px; right: -10px; background: red; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2 class="mb-4">New Complaint</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Complaint Type</label>
+                <select class="form-select" name="complaint_type" required>
+                    <option value="">Select Type</option>
+                    <option value="street_light">Street Light</option>
+                    <option value="ghanta_gadi">Ghanta Gadi</option>
+                    <option value="waste_water">Waste Water</option>
+                    <option value="road">Road</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">City</label>
+                <input type="text" class="form-control" name="city" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ward Number</label>
+                <input type="number" class="form-control" name="ward_number" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Images</label>
+                <div id="image-upload-container">
+                    <div class="image-upload-item mb-3">
+                        <input type="file" name="images" class="form-control image-input" accept="image/*">
+                    </div>
+                </div>
+                <button type="button" id="add-image-btn" class="btn btn-secondary btn-sm">Add Image</button>
+            </div>
+            <div class="image-preview-container" id="image-preview-container"></div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" name="description" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('image-upload-container');
+    const addBtn = document.getElementById('add-image-btn');
+    const previewContainer = document.getElementById('image-preview-container');
+
+    addBtn.addEventListener('click', () => {
+        const newInput = document.createElement('div');
+        newInput.className = 'image-upload-item mb-3';
+        newInput.innerHTML = `
+            <input type="file" name="images" class="form-control image-input" accept="image/*">
+            <button type="button" class="btn btn-danger btn-sm mt-2 remove-image-btn">Remove</button>
+        `;
+        container.appendChild(newInput);
+    });
+
+    container.addEventListener('change', (e) => {
+        if (e.target.classList.contains('image-input')) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const preview = document.createElement('div');
+                preview.className = 'image-preview';
+                preview.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview">
+                    <div class="remove-image" onclick="this.parentElement.remove()">×</div>
+                `;
+                previewContainer.appendChild(preview);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    container.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-image-btn')) {
+            e.target.closest('.image-upload-item').remove();
+        }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

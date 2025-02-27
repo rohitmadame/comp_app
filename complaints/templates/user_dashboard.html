@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="h3 fw-bold mb-0">Welcome, {{ user.username }}</h1>
+            <p class="text-muted">Your recent complaints and status</p>
+        </div>
+        <a href="{% url 'add_complaint' %}" class="btn btn-primary px-4 py-2">
+            + New Complaint
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-lg">
+        <div class="card-header bg-white border-0 py-3">
+            <h5 class="mb-0 fw-semibold">Your Complaints</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Type</th>
+                            <th>City</th>
+                            <th>Ward</th>
+                            <th>Status</th>
+                            <th class="pe-4">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for complaint in complaints %}
+                        <tr class="clickable-row" style="cursor: pointer;" 
+                            data-href="{% url 'complaint_detail' complaint.id %}">
+                            <td class="ps-4 fw-medium">{{ complaint.get_complaint_type_display }}</td>
+                            <td>{{ complaint.city }}</td>
+                            <td>{{ complaint.ward_number }}</td>
+                            <td>
+                                <span class="badge rounded-pill 
+                                    {% if complaint.status == 'Resolved' %}bg-success
+                                    {% elif complaint.status == 'In Progress' %}bg-warning text-dark
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ complaint.get_status_display }}
+                                </span>
+                            </td>
+                            <td class="pe-4 text-muted">{{ complaint.created_at|date:"M d, Y" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('.clickable-row');
+    rows.forEach(row => {
+        row.addEventListener('click', function() {
+            window.location.href = this.dataset.href;
+        });
+    });
+});
+</script>
+{% endblock %}
