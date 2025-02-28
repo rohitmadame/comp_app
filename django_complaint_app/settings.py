@@ -58,18 +58,23 @@ ROOT_URLCONF = 'django_complaint_app.urls'  # Update with your actual project na
 # ======================
   # Make sure this is installed: pip install dj-database-url
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),  # Gets from Railway environment
-        conn_max_age=600,
-        ssl_require=not bool(os.getenv('DEBUG')))  # SSL only in production
-}
+DATABASES = {}
 
-# Add this fallback for local development
-if os.getenv('DEBUG', 'False') == 'True' and not DATABASES['default']:
+# Prioritize Railway's DATABASE_URL first
+if os.getenv('DATABASE_URL'):
+    DATABASES['default'] = dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
+# Fallback to local PostgreSQL
+elif not DEBUG:
+    raise ImproperlyConfigured("Production database not configured!")
+# Local development with SQLite (temporary)
+else:
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 
 
@@ -113,13 +118,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Add this new section ▼▼▼
-PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-    'django.contrib.auth.hashers.Argon2PasswordHasher',
-    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-]
 # Add this new section ▼
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # This is the default backend
@@ -127,7 +125,6 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
-
 # ======================
 # Internationalization
 # ======================
