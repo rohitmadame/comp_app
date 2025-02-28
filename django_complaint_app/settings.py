@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-dev-key-only')  # Always set SECRET_KEY in Railway variables
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,django_complaint_app.up.railway.app').split(',')
-CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app', 'https://django_complaint_app.up.railway.app'] # Required for Railway deployment
+CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app', 'https://django-complaint-app-production.up.railway.app'] # Required for Railway deployment
 
 # ======================
 # Application Definition
