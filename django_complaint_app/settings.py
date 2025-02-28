@@ -42,7 +42,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'complaints.urls'  # Update with your actual project name
+ROOT_URLCONF = 'django_complaint_app.urls'  # Update with your actual project name
 
 # ======================
 # Database Configuration

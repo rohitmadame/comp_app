@@ -11,6 +11,6 @@ import os
 import fcntl
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'comp_app.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_complaint_app.settings')
 
 application = get_wsgi_application()
