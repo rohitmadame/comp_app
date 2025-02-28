@@ -1,1 +1,1 @@
-web: daphne -b 0.0.0.0 -p $PORT complaint_app.asgi:application
+gunicorn django-compalint-app.wsgi
