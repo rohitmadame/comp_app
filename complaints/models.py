@@ -21,6 +21,7 @@ class Complaint(models.Model):
     ward_number = models.IntegerField()
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     
 
