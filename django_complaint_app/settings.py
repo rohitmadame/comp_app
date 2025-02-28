@@ -56,14 +56,16 @@ ROOT_URLCONF = 'django_complaint_app.urls'  # Update with your actual project na
 # ======================
 # Database Configuration
 # ======================
+  # Make sure this is installed: pip install dj-database-url
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydatabase',  # Change this to your database name
-        'USER': 'postgres',  # Change if using Railway (from DATABASE_URL)
-        'PASSWORD': '60696069',  # Change if using Railway
-        'HOST': 'localhost',  # Change to Railway URL if using Railway
-        'PORT': '5432',  # Default PostgreSQL port
+        'ENGINE': 'django.db.backends.postgresql',  # ENGINE for PostgreSQL
+        'NAME': 'mydatabase',
+        'USER': 'rohit',
+        'PASSWORD': 'yourpassword',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
