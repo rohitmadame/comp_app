@@ -14,9 +14,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-dev-key-only')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = [
+    'compapp-production.up.railway.app',
     'localhost',
-    '127.0.0.1',
-    'compapp-production.up.railway.app'
+    '127.0.0.1'
+    
     ]
 
 CSRF_TRUSTED_ORIGINS = [
