@@ -58,23 +58,19 @@ ROOT_URLCONF = 'django_complaint_app.urls'  # Update with your actual project na
 # ======================
   # Make sure this is installed: pip install dj-database-url
 
+# settings.py
+# settings.py
+import os
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),  # Get from Railway
-        engine='django.db.backends.postgresql',
-        conn_max_age=600,
-        ssl_require=not os.getenv('DEBUG', 'False').lower() in ('true', '1')
-    )
-}
-
-# Fallback for local development
-if os.getenv('DEBUG', 'False').lower() in ('true', '1') and not DATABASES['default']:
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('PGDATABASE'),
+        'USER': os.environ.get('PGUSER'),
+        'PASSWORD': os.environ.get('PGPASSWORD'),
+        'HOST': os.environ.get('PGHOST'),
+        'PORT': os.environ.get('PGPORT'),
     }
-
-
+}
 # ======================
 # Templates
 # ======================
