@@ -60,17 +60,17 @@ ROOT_URLCONF = 'django_complaint_app.urls'  # Update with your actual project na
 
 # settings.py
 # settings.py
-import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('PGDATABASE'),
-        'USER': os.environ.get('PGUSER'),
-        'PASSWORD': os.environ.get('PGPASSWORD'),
-        'HOST': os.environ.get('PGHOST'),
-        'PORT': os.environ.get('PGPORT'),
+        'NAME': 'railway',      # Database name
+        'USER': 'postgres',      # Database user
+        'PASSWORD': 'EqMrJLfrCICFSxOOaVSvoQhymelLJVDE',  # Password from Railway
+        'HOST': 'postgres.railway.internal',  # Railway external host
+        'PORT': '5432',          # Port from Railway
     }
 }
+
 # ======================
 # Templates
 # ======================
