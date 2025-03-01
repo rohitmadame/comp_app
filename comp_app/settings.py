@@ -16,7 +16,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'comp-app-production.up.railway.app'
+    'https://compapp-production.up.railway.app/'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
