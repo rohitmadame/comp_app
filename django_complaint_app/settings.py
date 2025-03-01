@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ======================
 # Security Settings
 # ======================
-SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-dev-key-only')  # Always set SECRET_KEY in Railway variables
+SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-dev-key-only')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = [
     'localhost',
@@ -23,7 +23,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.up.railway.app',
     'https://django-complaint-app-production.up.railway.app'
 ]
- # Required for Railway deployment
 
 # ======================
 # Application Definition
@@ -35,14 +34,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    # Your apps
-    'complaints',  # Ensure this matches your app directory name
+    'complaints',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Must stay above other middleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,24 +48,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'django_complaint_app.urls'  # Update with your actual project name
+ROOT_URLCONF = 'django_complaint_app.urls'
 
 # ======================
-# Database Configuration
+# Database Configuration (Updated)
 # ======================
-  # Make sure this is installed: pip install dj-database-url
-
-# settings.py
-# settings.py
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',      # Database name
-        'USER': 'postgres',      # Database user
-        'PASSWORD': 'EqMrJLfrCICFSxOOaVSvoQhymelLJVDE',  # Password from Railway
-        'HOST': 'postgres.railway.internal',  # Railway external host
-        'PORT': '5432',          # Port from Railway
-    }
+    'default': dj_database_url.config(env='DATABASE_URL', default='postgres://...')
 }
 
 # ======================
@@ -96,7 +82,7 @@ TEMPLATES = [
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # Optimized for production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -104,7 +90,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # ======================
 # Authentication
 # ======================
-AUTH_USER_MODEL = 'auth.User'  # Default user model
+AUTH_USER_MODEL = 'auth.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -113,13 +99,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Add this new section ▼
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # This is the default backend
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
+
 # ======================
 # Internationalization
 # ======================
@@ -129,10 +115,10 @@ USE_I18N = True
 USE_TZ = True
 
 # ======================
-# Security Headers (for production)
+# Security Headers
 # ======================
 if not DEBUG:
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -145,7 +131,7 @@ if not DEBUG:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ======================
-# Logging (for Railway debugging)
+# Logging
 # ======================
 LOGGING = {
     'version': 1,
