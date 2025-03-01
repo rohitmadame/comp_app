@@ -21,7 +21,7 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.up.railway.app',
-    'https://comp-app-production.up.railway.app'
+    'https://compapp-production.up.railway.app'
 ]
 
 # ======================
