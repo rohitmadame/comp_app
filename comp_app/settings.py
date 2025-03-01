@@ -16,12 +16,12 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'django-complaint-app-production.up.railway.app'
+    'comp-app-production.up.railway.app'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.up.railway.app',
-    'https://django-complaint-app-production.up.railway.app'
+    'https://comp-app-production.up.railway.app'
 ]
 
 # ======================
@@ -48,7 +48,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'django_complaint_app.urls'
+ROOT_URLCONF = 'comp_app.urls'
 
 # ======================
 # Database Configuration (Updated)
